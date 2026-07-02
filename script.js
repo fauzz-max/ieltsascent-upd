@@ -449,23 +449,21 @@ function submitTest() {
 // 6. REAL-TIME INTERACTIVE AI MOCK CHAT & ESSAY
 // ==========================================
 async function sendChatMessage() {
-  const inputEl = document.getElementById('chatInputField');[cite: 3]
-  const logEl = document.getElementById('chatLog');[cite: 3]
-  const userText = inputEl.value.trim();[cite: 3]
+  const inputEl = document.getElementById('chatInputField');
+  const logEl = document.getElementById('chatLog');
+  const userText = inputEl.value.trim();
 
-  if (!userText) return;[cite: 3]
+  if (!userText) return;
 
-  // Отображаем сообщение пользователя
-  const userBubble = document.createElement('div');[cite: 3]
-  userBubble.className = 'chat-msg user';[cite: 3]
-  userBubble.innerText = userText;[cite: 3]
-  logEl.appendChild(userBubble);[cite: 3]
+  const userBubble = document.createElement('div');
+  userBubble.className = 'chat-msg user';
+  userBubble.innerText = userText;
+  logEl.appendChild(userBubble);
   
-  inputEl.value = '';[cite: 3]
-  logEl.scrollTop = logEl.scrollHeight;[cite: 3]
+  inputEl.value = '';
+  logEl.scrollTop = logEl.scrollHeight;
 
   try {
-    // Делаем реальный запрос к нашей функции на Vercel
     const response = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -475,14 +473,14 @@ async function sendChatMessage() {
     const data = await response.json();
     const aiResponse = data.candidates[0].content.parts[0].text;
 
-    const aiBubble = document.createElement('div');[cite: 3]
-    aiBubble.className = 'chat-msg ai';[cite: 3]
-    aiBubble.innerHTML = `<strong>Ascent AI:</strong> ${aiResponse}`;[cite: 3]
-    logEl.appendChild(aiBubble);[cite: 3]
+    const aiBubble = document.createElement('div');
+    aiBubble.className = 'chat-msg ai';
+    aiBubble.innerHTML = `<strong>Ascent AI:</strong> ${aiResponse}`;
+    logEl.appendChild(aiBubble);
   } catch (err) {
     console.error(err);
   }
-  logEl.scrollTop = logEl.scrollHeight;[cite: 3]
+  logEl.scrollTop = logEl.scrollHeight;
 }
 
 async function sendEssayForAiCheck() {
@@ -581,7 +579,7 @@ function renderDynamicCharts() {
       </div>
       <div class="bar-label">${item.label.substring(0, 10)}</div>
     `;
-    chartArea.appendChild(barGroup);
+    barGroup.appendChild(barGroup);
   });
 }
 
