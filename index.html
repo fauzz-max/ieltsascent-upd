@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ascent - Premium IELTS Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>Settings & Auth</h3>
+      <button class="sandwich-btn" onclick="toggleSidebar()">✕</button>
+    </div>
+    
+    <div class="sidebar-auth-section">
+      <p class="sidebar-section-title">ACCOUNT</p>
+      
+      <button class="google-login-btn" id="googleAuthBtn" onclick="handleGoogleLogin()">
+        <svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+          <g transform="matrix(1, 0, 0, 1, 0, 0)">
+            <path d="M23.64 12.2045C23.64 11.3636 23.5745 10.5909 23.4218 9.81818H12V14.3945H18.6655C18.4255 16.0309 17.4327 17.4382 16.0036 18.3491V21.3273H19.8655C22.0909 19.3418 23.64 16.0582 23.64 12.2045Z" fill="#4285F4"/>
+            <path d="M12 24C15.2727 24 18.0218 22.9527 20.0073 21.0873L16.0036 18.1091C14.9345 18.84 13.5818 19.2655 12 19.2655C8.95636 19.2655 6.38182 17.2036 5.44364 14.4327H1.42909V17.5527C3.41455 21.4909 7.42909 24 12 24Z" fill="#34A853"/>
+            <path d="M5.44364 14.4327C5.19273 13.68 5.05091 12.8618 5.05091 12C5.05091 11.1382 5.19273 10.32 5.44364 9.56727V6.44727H1.42909C0.621818 8.04 0.163636 9.94909 0.163636 12C0.163636 14.0509 0.621818 15.96 1.42909 17.5527L5.44364 14.4327Z" fill="#FBBC05"/>
+            <path d="M12 4.73455C13.7782 4.73455 15.3709 5.34545 16.6255 6.54545L20.0836 3.08727C18.0109 1.17818 15.2618 0 12 0C7.42909 0 3.41455 2.50909 1.42909 6.44727L5.44364 9.56727C6.38182 6.79636 8.95636 4.73455 12 4.73455Z" fill="#EA4335"/>
+          </g>
+        </svg>
+        Sign in with Google
+      </button>
+
+      <div id="userInfo" style="display:none; margin-top: 10px;">
+        <p style="font-weight:700; font-size:14px;" id="userName">User Name</p>
+        <p style="font-size:12px; color:var(--text-muted);" id="userEmail">user@gmail.com</p>
+      </div>
+    </div>
+
+    <div>
+      <p class="sidebar-section-title">PREFERENCES & LOGS</p>
+      <button class="primary-btn" onclick="openHistoryModal()" style="margin-bottom: 16px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <svg class="icon" viewBox="0 0 24 24" fill="white"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+        View Test History
+      </button>
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; font-size:14px;">
+        <span>Dark Mode (Coming Soon)</span>
+        <input type="checkbox" disabled>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="historyModal">
+    <div class="modal-content">
+      <div class="section-header">
+        <h2>My Test History</h2>
+        <button class="sandwich-btn" onclick="closeHistoryModal()">✕</button>
+      </div>
+      <div class="history-list" id="historyListContainer">
+        </div>
+      <button class="primary-btn transparent-danger" onclick="resetMockScores()" style="margin-top:20px;">Clear All Data</button>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-top-row">
+      <div class="logo-container">
+        <h1>Ascent</h1>
+      </div>
+
+      <button type="button" class="sandwich-btn" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+      </button>
+    </div>
+    
+    <div class="desktop-nav">
+      <div class="main-toggle-slider" id="mainSlider"></div>
+      <button class="desktop-nav-btn active" onclick="switchModule('listening', 0)">Listening</button>
+      <button class="desktop-nav-btn" onclick="switchModule('reading', 1)">Reading</button>
+      <button class="desktop-nav-btn" onclick="switchModule('writing', 2)">Writing</button>
+      <button class="desktop-nav-btn" onclick="switchModule('speaking', 3)">Speaking</button>
+      <button class="desktop-nav-btn" onclick="switchModule('chat', 4)">AI Chat</button>
+      <button class="desktop-nav-btn" onclick="switchModule('progress', 5)">Progress</button>
+    </div>
+
+    <div class="mobile-nav">
+      <div class="expandable-menu" id="expandMenu">
+        <button class="menu-toggle" onclick="toggleMenu()">
+          <span id="currentSelection">Listening</span>
+          <svg class="icon chevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+        </button>
+        <div class="menu-items-wrapper">
+          <div class="menu-items">
+            <div class="menu-items-inner">
+              <button class="mobile-nav-btn active" data-mod="listening" onclick="switchModule('listening', 0)">Listening</button>
+              <button class="mobile-nav-btn" data-mod="reading" onclick="switchModule('reading', 1)">Reading</button>
+              <button class="mobile-nav-btn" data-mod="writing" onclick="switchModule('writing', 2)">Writing</button>
+              <button class="mobile-nav-btn" data-mod="speaking" onclick="switchModule('speaking', 3)">Speaking</button>
+              <button class="mobile-nav-btn" data-mod="chat" onclick="switchModule('chat', 4)">AI Chat</button>
+              <button class="mobile-nav-btn" data-mod="progress" onclick="switchModule('progress', 5)">Progress</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="mod-listening" class="module-section active">
+      <div class="sub-nav">
+        <button class="sub-nav-btn active" onclick="switchTab('l-recent', this, 'listening')">Recent Tests</button>
+        <button class="sub-nav-btn" onclick="switchTab('l-official', this, 'listening')">Official Cambridge</button>
+      </div>
+
+      <div id="l-recent" class="listening-sub active">
+        <div class="cards-grid">
+          <div class="card">
+            <span class="card-badge">Recent • Listening</span>
+            <h3 class="card-title">April 2026 - Real Exam Audio Track</h3>
+          </div>
+        </div>
+      </div>
+
+      <div id="l-official" class="listening-sub" style="display:none;">
+        <div class="cards-grid">
+          <div class="card" onclick="startTest('listening', 'cam21_1')">
+            <span class="card-badge">Cambridge 21 • Test 1</span>
+            <h3 class="card-title">Official Listening Practice Test 1</h3>
+            <p style="font-size:12px; color:var(--text-muted); margin-top:8px;">40 Questions • Audio Player Included</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mod-reading" class="module-section">
+      <div class="sub-nav">
+        <button class="sub-nav-btn active" onclick="switchTab('r-recent', this, 'reading')">Recent Tests</button>
+        <button class="sub-nav-btn" onclick="switchTab('r-official', this, 'reading')">Official Cambridge</button>
+      </div>
+
+      <div id="r-recent" class="reading-sub active">
+        <div class="cards-grid">
+          <div class="card">
+            <span class="card-badge">Recent • Passage 1</span>
+            <h3 class="card-title">The History of the Electric Car (May 2026)</h3>
+          </div>
+        </div>
+      </div>
+
+      <div id="r-official" class="reading-sub" style="display:none;">
+        <div class="cards-grid">
+          <div class="card" onclick="startTest('reading', 'cam21_1')">
+            <span class="card-badge">Cambridge 21 • Test 1</span>
+            <h3 class="card-title">Reading Passage 1, 2 & 3 Full Mock</h3>
+            <p style="font-size:12px; color:var(--text-muted); margin-top:8px;">40 Questions • 3 Full Passages</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mod-writing" class="module-section">
+      <div class="sub-nav">
+        <button class="sub-nav-btn active" onclick="switchTab('w-recent', this, 'writing')">Recent Tests</button>
+        <button class="sub-nav-btn" onclick="switchTab('w-official', this, 'writing')">Official Cambridge</button>
+      </div>
+
+      <div id="w-recent" class="writing-sub active">
+        <div class="cards-grid">
+          <div class="card">
+            <span class="card-badge">Task 2 • Agree/Disagree</span>
+            <h3 class="card-title">Some people think that the government should spend money on children...</h3>
+          </div>
+        </div>
+      </div>
+
+      <div id="w-official" class="writing-sub" style="display:none;">
+        <div class="cards-grid">
+          <div class="card">
+            <span class="card-badge">Cambridge 21 • Task 2</span>
+            <h3 class="card-title">The best way to provide enough homes in large cities is to build tall apartment blocks...</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mod-speaking" class="module-section">
+      <div class="card" style="text-align:center; padding: 60px 20px;">
+        <svg style="width:64px; height:64px; fill:var(--primary); margin-bottom: 20px;" viewBox="0 0 24 24"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+        <h2 style="font-size:24px; margin-bottom: 12px;">Speaking Simulator</h2>
+        <p style="color:var(--text-muted); font-size: 16px; line-height:1.5;">We are actively working on this module. It will be added in the near future!</p>
+      </div>
+    </section>
+
+    <section id="mod-chat" class="module-section">
+      <div class="section-header">
+        <h2>AI IELTS Companion</h2>
+        <span class="badge">Online Tutor</span>
+      </div>
+      <div class="chat-container">
+        <div class="chat-log" id="chatLog">
+          <div class="chat-msg ai">
+            <strong>Ascent AI:</strong> Hello! I am your interactive IELTS expert. Ask me to verify your essay topics, provide top-tier speaking structures, or build custom vocabulary lists!
+          </div>
+        </div>
+        <div class="chat-input-area">
+          <input type="text" id="chatInputField" placeholder="Ask anything about Speaking, Writing, Reading or Listening..." onkeydown="if(event.key === 'Enter') sendChatMessage()">
+          <button class="chat-send-btn" onclick="sendChatMessage()">Send</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="mod-progress" class="module-section">
+      <div class="section-header">
+        <h2>Your Progress Analytics</h2>
+        <span class="badge" id="overallBandDisplay">Overall Band: 0.0</span>
+      </div>
+      <div class="progress-dashboard">
+        <div class="chart-container">
+          <h3 style="font-size: 16px; margin-bottom: 10px;">Recent Mock Scores</h3>
+          <div class="chart-area" id="dynamicChartArea">
+            </div>
+        </div>
+        
+        <div class="progress-control-panel">
+          <h3>Log Mock Score Manually</h3>
+          <div class="input-group" style="margin-top:12px;">
+            <label>Mock Name</label>
+            <input type="text" id="newMockLabel" placeholder="e.g. Mock 5">
+          </div>
+          <div class="input-group">
+            <label>Band Score (0 - 9.0)</label>
+            <input type="text" id="newMockScore" placeholder="e.g. 7.5">
+          </div>
+          <button class="primary-btn" onclick="addNewMockResult()">Update Analytics Chart</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="test-runner" class="test-interface" style="display:none;">
+      <div class="section-header">
+        <button class="back-btn" onclick="exitTest()">← Back to Modules</button>
+        <h2 id="tr-title">Test Title</h2>
+        <span class="badge" id="tr-module-badge">Module</span>
+      </div>
+
+      <div id="tr-audio-container" class="audio-panel" style="display:none;">
+        <p style="font-weight: 700; margin-bottom:8px; font-size:14px; color:var(--primary);">Audio Controls</p>
+        <audio id="tr-audio-player" controls style="width:100%;">
+          <source src="" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+        <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">*Please insert your audio file link into the src attribute of the audio tag to listen.</p>
+      </div>
+
+      <div id="tr-layout" class="tr-layout-single">
+        
+        <div id="tr-passage-col" style="display:none;">
+          <div class="passage-tabs" id="tr-passage-tabs">
+            </div>
+          <div class="passage-content" id="tr-passage-content">
+            </div>
+        </div>
+
+        <div id="tr-questions-col">
+          <div id="tr-questions-container" class="questions-container">
+            </div>
+          <button class="primary-btn" onclick="submitTest()" style="margin-top:20px;">Submit Test & Get Band Score</button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- Внутри <section id="mod-writing"> в файле index.html -->
+<section id="mod-writing" class="module-section">
+  <div class="sub-nav">
+    <button class="sub-nav-btn active" onclick="switchTab('w-recent', this, 'writing')">Recent Tests</button>
+    <button class="sub-nav-btn" onclick="switchTab('w-official', this, 'writing')">Official Cambridge</button>
+  </div>
+
+  <div id="w-recent" class="writing-sub active">
+    <div class="cards-grid">
+      <div class="card" style="cursor: default;">
+        <span class="card-badge">Task 2 • Essay Checker</span>
+        <h3 class="card-title">Write your IELTS Essay below for AI evaluation:</h3>
+        <div class="input-group" style="margin-top: 15px;">
+          <textarea id="essayInputField" rows="8" placeholder="Paste your essay here (minimum 250 words)..." style="width:100%; resize:vertical;"></textarea>
+        </div>
+        <button class="primary-btn" id="checkEssayBtn" onclick="sendEssayForAiCheck()">Check Essay with AI</button>
+        <div id="essayResult" style="margin-top:20px; padding:15px; background:#F8FAFC; border-radius:12px; display:none; white-space:pre-line; border:1px solid var(--border);"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Подключение Firebase SDK в самом низу body перед script.js -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  // Вставьте СВОИ данные из Firebase Console!
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  // Делаем функции доступными для глобального вызова из script.js
+  window.handleGoogleLogin = function() {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log("Logged in:", result.user);
+      }).catch((error) => {
+        console.error("Auth error:", error);
+      });
+  };
+
+  window.handleGoogleLogout = function() {
+    signOut(auth).then(() => {
+      localStorage.removeItem('ascent_auth');[cite: 3]
+      location.reload();
+    });
+  };
+
+  // Автоматическое запоминание сессии браузером
+  onAuthStateChanged(auth, (user) => {
+    const authBtn = document.getElementById('googleAuthBtn');[cite: 2, 3]
+    const userInfo = document.getElementById('userInfo');[cite: 2, 3]
+    
+    if (user) {
+      // Пользователь вошел, скрываем кнопку, показываем профиль
+      if(authBtn) authBtn.style.display = 'none';[cite: 3]
+      if(userInfo) {
+        userInfo.style.display = 'block';[cite: 3]
+        document.getElementById('userName').innerText = user.displayName;[cite: 2, 3]
+        document.getElementById('userEmail').innerText = user.email;[cite: 2, 3]
+      }
+      localStorage.setItem('ascent_auth', 'true');[cite: 3]
+    } else {
+      // Пользователь не авторизован
+      if(authBtn) authBtn.style.display = 'flex';
+      if(userInfo) userInfo.style.display = 'none';
+    }
+  });
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>
